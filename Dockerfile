@@ -1,15 +1,24 @@
-FROM kbase/deplbase:latest
+FROM kbase/depl:latest
+MAINTAINER kkeller@lbl.gov
+
+# Install the SDK (should go away eventually)
+RUN \
+  apt-get update && apt-get install -y ant && \
+  cd /kb/dev_container/modules && \
+  git clone https://github.com/kbase/kb_sdk -b develop && \
+  cd /kb/dev_container/modules/kb_sdk && \
+  make
+
 # User apt-get instructions here
-RUN apt-get update
-RUN apt-get -y install ant
-WORKDIR /kb/dev_container/modules
-RUN git clone https://github.com/kbase/kb_sdk
-WORKDIR /kb/dev_container/modules/kb_sdk
-RUN git checkout develop
-RUN make
-COPY ./ /kb/contigcount
-WORKDIR /kb/contigcount
+# RUN apt-get install blah
+
+COPY ./ /kb/module
 ENV PATH=$PATH:/kb/dev_container/modules/kb_sdk/bin
-RUN make
-RUN perl -pi -e 's/homes.chicago.kkeller.sdk.kb_sdk/kb/g' scripts/*
-ENTRYPOINT . /kb/deployment/user-env.sh && /bin/bash ./scripts/start_perl_server.sh
+RUN cd /kb/module && make && \
+   perl -pi -e 's/homes.chicago.kkeller.sdk.kb_sdk.contigcount/kb\/module/g' scripts/*
+
+WORKDIR /kb/module
+
+ENTRYPOINT [ "./scripts/entrypoint.sh" ]
+
+CMD [ ]
