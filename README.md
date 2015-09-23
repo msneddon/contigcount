@@ -3,4 +3,4 @@
 # contigcount
 ---
 
-This is the basic readme for this module. This module contains an example method that counts the contigs in a contig set.
+The code in this module was created by kb_sdk, except for the Dockerfile which is still hardcoded.  You will need a cluster.ini file and an ssl dir created by deploy_dev.
