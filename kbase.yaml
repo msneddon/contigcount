@@ -1,0 +1,11 @@
+module-name:
+    CountContig
+
+module-description:
+    KBase module to count Contigs
+
+service-language:
+    perl
+
+owners:
+    [kkeller]
