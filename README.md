@@ -3,6 +3,8 @@
 # contigcount
 ---
 
-The code in this module was created by kb_sdk, except for the Dockerfile which is still hardcoded.  You will need a cluster.ini file and an ssl dir created by deploy_dev, and will need to edit the Dockerfile to adjust the paths for munging the service start script.
+The code in this module was created by kb_sdk.  The template Dockerfile was slightly modified.  You will need a cluster.ini file and an ssl dir created by deploy_dev, and will need to edit the Dockerfile to adjust the paths for munging the service start script.
 
-The implementation currently talks to the production KBase workspace instance.
+Specify the workspace-url instance in deploy.cfg.
+
+The current implementation does not pass authentication tokens to the workspace.  This will change soon.
