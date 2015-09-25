@@ -26,19 +26,27 @@
 	],
 	"behavior": {
 		"service-mapping": {
-			"url": "",
+			"url": "https://ci.kbase.us/services/contigcount",
 			"name": "contigcount",
-			"method": "",
+			"method": "count_contigs",
 			"input_mapping": [
 				{
+					"narrative_system_variable": "workspace",
+					"target_argument_position": 0
+				},
+				{
 					"input_parameter": "contigset_id",
-					"target_property": "contigset_id"
+					"target_argument_position": 1
 				}
 			],
 			"output_mapping": [
 				{
-					"input_parameter": "contigset_out",
-					"target_property": "contigset_out"
+					"service_method_output_path": ["contig_count"],
+					"target_property": "contigCount"
+				},
+				{
+					"input_parameter": "contigset_id",
+					"target_property": "contigsetId"
 				},
 				{
 					"narrative_system_variable": "workspace",
