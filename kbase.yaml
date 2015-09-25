@@ -1,6 +1,9 @@
 module-name:
     CountContig
 
+module-version:
+    0.0.1
+
 module-description:
     KBase module to count Contigs
 
