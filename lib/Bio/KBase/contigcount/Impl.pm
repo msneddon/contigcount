@@ -12,14 +12,13 @@ contigcount
 =head1 DESCRIPTION
 
 A KBase module: contigcount
-
 This sample module contains one small method - count_contigs.
 
 =cut
 
 #BEGIN_HEADER
 use Bio::KBase::workspace::Client;
-
+use Config::IniFiles;
 #END_HEADER
 
 sub new
@@ -29,6 +28,13 @@ sub new
     };
     bless $self, $class;
     #BEGIN_CONSTRUCTOR
+    my $config_file = $ENV{KB_DEPLOYMENT_CONFIG};
+    my $cfg = Config::IniFiles->new(-file=>$config_file);
+    my $wsInstance = $cfg->val('contigcount','workspace-url');
+    die "no workspace-url defined" unless $wsInstance;
+
+    $self->{'workspace-url'} = $wsInstance;
+
     #END_CONSTRUCTOR
 
     if ($self->can('_init_instance'))
@@ -44,7 +50,7 @@ sub new
 
 =head2 count_contigs
 
-  $return = $obj->count_contigs($contigset_id)
+  $return = $obj->count_contigs($workspace_name, $contigset_id)
 
 =over 4
 
@@ -53,8 +59,10 @@ sub new
 =begin html
 
 <pre>
+$workspace_name is a contigcount.workspace_name
 $contigset_id is a contigcount.contigset_id
 $return is an UnspecifiedObject, which can hold any non-null object
+workspace_name is a string
 contigset_id is a string
 
 </pre>
@@ -63,8 +71,10 @@ contigset_id is a string
 
 =begin text
 
+$workspace_name is a contigcount.workspace_name
 $contigset_id is a contigcount.contigset_id
 $return is an UnspecifiedObject, which can hold any non-null object
+workspace_name is a string
 contigset_id is a string
 
 
@@ -85,9 +95,10 @@ contigset_id - the ContigSet to count.
 sub count_contigs
 {
     my $self = shift;
-    my($contigset_id) = @_;
+    my($workspace_name, $contigset_id) = @_;
 
     my @_bad_arguments;
+    (!ref($workspace_name)) or push(@_bad_arguments, "Invalid type for argument \"workspace_name\" (value was \"$workspace_name\")");
     (!ref($contigset_id)) or push(@_bad_arguments, "Invalid type for argument \"contigset_id\" (value was \"$contigset_id\")");
     if (@_bad_arguments) {
 	my $msg = "Invalid arguments passed to count_contigs:\n" . join("", map { "\t$_\n" } @_bad_arguments);
@@ -95,15 +106,15 @@ sub count_contigs
 							       method_name => 'count_contigs');
     }
 
-    my $ctx = $Bio::KBase::contigcount::Server::CallContext;
+    my $ctx = $contigcountServer::CallContext;
     my($return);
     #BEGIN count_contigs
-    my $wshandle=Bio::KBase::workspace::Client->new('https://kbase.us/services/ws');
-    my $wsname='KBasePublicGenomesV5';
-    my $wsobj=$wshandle->get_objects([{workspace=>$wsname,name=>$contigset_id}]);
+    my $wshandle=Bio::KBase::workspace::Client->new($self->{'workspace-url'});
+    my $wsobj=$wshandle->get_objects([{workspace=>$workspace_name,name=>$contigset_id}]);
     my $contigcount=scalar (@{$wsobj->[0]{data}{contigs}});
-    
+
     $return = { 'params' => $contigset_id, 'contig_count' => $contigcount };
+
     #END count_contigs
     my @_bad_returns;
     (defined $return) or push(@_bad_returns, "Invalid type for return variable \"return\" (value was \"$return\")");
@@ -165,6 +176,37 @@ sub version {
 =item Description
 
 A string representing a ContigSet id.
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a string
+</pre>
+
+=end html
+
+=begin text
+
+a string
+
+=end text
+
+=back
+
+
+
+=head2 workspace_name
+
+=over 4
+
+
+
+=item Description
+
+A string representing a workspace name.
 
 
 =item Definition
