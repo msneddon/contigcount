@@ -19,6 +19,7 @@ This sample module contains one small method - count_contigs.
 #BEGIN_HEADER
 use Bio::KBase::workspace::Client;
 use Config::IniFiles;
+use Data::Dumper;
 #END_HEADER
 
 sub new
@@ -109,7 +110,9 @@ sub count_contigs
     my $ctx = $contigcountServer::CallContext;
     my($return);
     #BEGIN count_contigs
-    my $wshandle=Bio::KBase::workspace::Client->new($self->{'workspace-url'});
+    my $token=$ctx->token;
+    my $wshandle=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    print Dumper($wshandle);
     my $wsobj=$wshandle->get_objects([{workspace=>$workspace_name,name=>$contigset_id}]);
     my $contigcount=scalar (@{$wsobj->[0]{data}{contigs}});
 
