@@ -112,7 +112,6 @@ sub count_contigs
     #BEGIN count_contigs
     my $token=$ctx->token;
     my $wshandle=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
-    print Dumper($wshandle);
     my $wsobj=$wshandle->get_objects([{workspace=>$workspace_name,name=>$contigset_id}]);
     my $contigcount=scalar (@{$wsobj->[0]{data}{contigs}});
 
