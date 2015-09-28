@@ -18,5 +18,5 @@ module contigcount {
 	
 	contigset_id - the ContigSet to count.
 	*/
-	funcdef count_contigs(workspace_name,contigset_id) returns (UnspecifiedObject) authentication required;
+	async funcdef count_contigs(workspace_name,contigset_id) returns (UnspecifiedObject) authentication required;
 };

@@ -1,4 +1,4 @@
-FROM kbase/deplbase:latest
+FROM kbase/depl:latest
 MAINTAINER KBase Developer
 # Install the SDK (should go away eventually)
 RUN \
@@ -21,6 +21,8 @@ RUN cpanm -i Config::IniFiles
 COPY ./ /kb/module
 ENV PATH=$PATH:/kb/dev_container/modules/kb_sdk/bin
 RUN cd /kb/module && make
+
+RUN mkdir -p /kb/deployment/services/contigcount/work
 
 WORKDIR /kb/module
 
