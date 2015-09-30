@@ -22,7 +22,7 @@ COPY ./ /kb/module
 ENV PATH=$PATH:/kb/dev_container/modules/kb_sdk/bin
 RUN cd /kb/module && make
 
-RUN mkdir -p /kb/deployment/services/contigcount/work
+RUN mkdir -p /kb/module/work
 
 WORKDIR /kb/module
 
