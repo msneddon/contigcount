@@ -11,4 +11,4 @@ service-language:
     perl
 
 owners:
-    [kkeller]
+    [kkeller,kbasetest]
