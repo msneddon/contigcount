@@ -1,5 +1,5 @@
 module-name:
-    CountContig
+    msneddon_CountContig
 
 module-version:
     0.0.1
@@ -11,4 +11,4 @@ service-language:
     perl
 
 owners:
-    [kkeller,kbasetest]
+    [kkeller,msneddon]
